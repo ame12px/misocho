@@ -1,17 +1,13 @@
-import { useState, useEffect } from "react"
+import { useReducer, useEffect, useState } from "react"
+import { memoReducer } from "./memoReducer"
+import type { Memo } from "./memoReducer"
 import MemoItem from "./MemoItem"
 import MemoInput from "./MemoInput"
 import MemoSearch from "./MemoSearch"
 
-interface Memo {
-  id: number
-  text: string
-  createdAt: string
-}
-
 function App() {
   const [input, setInput] = useState("")
-  const [memos, setMemos] = useState<Memo[]>(() => {
+  const [memos, dispatch] = useReducer(memoReducer, [], () => {
     const saved = localStorage.getItem("memo")
     return saved ? JSON.parse(saved) : []
   })
@@ -32,7 +28,7 @@ function App() {
       text: input,
       createdAt: new Date().toLocaleString("ja-JP"),
     }
-    setMemos([...memos, newMemo])
+    dispatch({ type: "ADD", payload: newMemo })
     setInput("")
   }
   
@@ -54,7 +50,7 @@ function App() {
             key={memo.id}
             text={memo.text}
             createdAt={memo.createdAt}
-            onDelete={() => setMemos(memos.filter((m) => m.id !== memo.id))}
+            onDelete={() => dispatch({ type: "DELETE", payload: memo.id })}
           />
         ))}
       </ul>
