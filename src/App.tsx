@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
 import MemoItem from "./MemoItem"
+import MemoInput from "./MemoInput"
+import MemoSearch from "./MemoSearch"
 
 interface Memo {
   id: number
@@ -20,7 +22,7 @@ function App() {
   }, [memos])
 
   const filteredMemos = memos.filter((m) =>
-    m.text.toLowerCase().includes(search.toLocaleLowerCase())
+    m.text.toLowerCase().includes(search.toLowerCase())
   )
 
   const addMemo = () => {
@@ -37,18 +39,14 @@ function App() {
   return (
     <div>
       <h1>misocho</h1>
-      <input
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" && !e.nativeEvent.isComposing) addMemo()
-        }}
+      <MemoInput
+        input={input}
+        onInputChange={setInput}
+        onAdd={addMemo}
       />
-      <button onClick={addMemo}>追加</button>
-      <input
-        placeholder="検索"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
+      <MemoSearch
+        search={search}
+        onSearchChange={setSearch}
       />
       <ul>
         {filteredMemos.map((memo) => (
