@@ -1,35 +1,22 @@
-import { useReducer, useEffect, useState } from "react"
-import { memoReducer } from "./memoReducer"
+import { useState } from "react"
+import { useMemos } from "./useMemos"
 import { MemoContext } from "./MemoContext"
-import type { Memo } from "./memoReducer"
 import MemoItem from "./MemoItem"
 import MemoInput from "./MemoInput"
 import MemoSearch from "./MemoSearch"
 
 function App() {
+  const { memos, dispatch, addMemo } = useMemos()
   const [input, setInput] = useState("")
-  const [memos, dispatch] = useReducer(memoReducer, [], () => {
-    const saved = localStorage.getItem("memo")
-    return saved ? JSON.parse(saved) : []
-  })
   const [search, setSearch] = useState("")
-
-  useEffect(() => {
-    localStorage.setItem("memo", JSON.stringify(memos))
-  }, [memos])
 
   const filteredMemos = memos.filter((m) =>
     m.text.toLowerCase().includes(search.toLowerCase())
   )
 
-  const addMemo = () => {
+  const handleAdd = () => {
     if (input.trim() === "") return
-    const newMemo: Memo = {
-      id: Date.now(),
-      text: input,
-      createdAt: new Date().toLocaleString("ja-JP"),
-    }
-    dispatch({ type: "ADD", payload: newMemo })
+    addMemo(input)
     setInput("")
   }
   
@@ -40,7 +27,7 @@ function App() {
         <MemoInput
           input={input}
           onInputChange={setInput}
-          onAdd={addMemo}
+          onAdd={handleAdd}
         />
         <MemoSearch
           search={search}
