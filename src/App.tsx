@@ -1,5 +1,6 @@
 import { useReducer, useEffect, useState } from "react"
 import { memoReducer } from "./memoReducer"
+import { MemoContext } from "./MemoContext"
 import type { Memo } from "./memoReducer"
 import MemoItem from "./MemoItem"
 import MemoInput from "./MemoInput"
@@ -33,28 +34,30 @@ function App() {
   }
   
   return (
-    <div>
-      <h1>misocho</h1>
-      <MemoInput
-        input={input}
-        onInputChange={setInput}
-        onAdd={addMemo}
-      />
-      <MemoSearch
-        search={search}
-        onSearchChange={setSearch}
-      />
-      <ul>
-        {filteredMemos.map((memo) => (
-          <MemoItem
-            key={memo.id}
-            text={memo.text}
-            createdAt={memo.createdAt}
-            onDelete={() => dispatch({ type: "DELETE", payload: memo.id })}
-          />
-        ))}
-      </ul>
-    </div>
+    <MemoContext.Provider value={{ memos, dispatch }}>
+      <div>
+        <h1>misocho</h1>
+        <MemoInput
+          input={input}
+          onInputChange={setInput}
+          onAdd={addMemo}
+        />
+        <MemoSearch
+          search={search}
+          onSearchChange={setSearch}
+        />
+        <ul>
+          {filteredMemos.map((memo) => (
+            <MemoItem
+              key={memo.id}
+              id={memo.id}
+              text={memo.text}
+              createdAt={memo.createdAt}
+            />
+          ))}
+        </ul>
+      </div>
+    </MemoContext.Provider>
   )
 }
 

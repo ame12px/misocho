@@ -1,14 +1,18 @@
+import { useMemoContext } from "./MemoContext"
+
 interface MemoItemProps {
+  id: number
   text: string
   createdAt: string
-  onDelete: () => void
 }
 
-function MemoItem({ text, createdAt, onDelete }: MemoItemProps) {
+function MemoItem({ id, text, createdAt }: MemoItemProps) {
+  const { dispatch } = useMemoContext()
+  
   return (
     <li>
       {text} ({createdAt})
-      <button onClick={onDelete}>削除</button>
+      <button onClick={() => dispatch({ type: "DELETE", payload: id})}>削除</button>
     </li>
   )
 }
