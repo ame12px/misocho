@@ -4,6 +4,7 @@ import { MemoContext } from "./MemoContext"
 import MemoItem from "./MemoItem"
 import MemoInput from "./MemoInput"
 import MemoSearch from "./MemoSearch"
+import "./App.css"
 
 function App() {
   const { memos, dispatch, addMemo } = useMemos()
@@ -22,18 +23,20 @@ function App() {
   
   return (
     <MemoContext.Provider value={{ memos, dispatch }}>
-      <div>
-        <h1>misocho</h1>
-        <MemoInput
-          input={input}
-          onInputChange={setInput}
-          onAdd={handleAdd}
-        />
-        <MemoSearch
-          search={search}
-          onSearchChange={setSearch}
-        />
-        <ul>
+      <div className="app">
+        <h1 className="app-title">misocho</h1>
+        <div className="app-controls">
+          <MemoInput
+            input={input}
+            onInputChange={setInput}
+            onAdd={handleAdd}
+          />
+          <MemoSearch
+            search={search}
+            onSearchChange={setSearch}
+          />
+        </div>
+        <ul className="memo-list">
           {filteredMemos.map((memo) => (
             <MemoItem
               key={memo.id}

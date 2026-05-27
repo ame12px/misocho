@@ -6,7 +6,8 @@ interface MemoSearchProps {
 function MemoSearch({ search, onSearchChange }: MemoSearchProps) {
 	return (
 		<input
-			placeholder="検索"
+			className="memo-search"
+      placeholder="検索..."
 			value={search}
 			onChange={(e) => onSearchChange(e.target.value)}
 		/>
