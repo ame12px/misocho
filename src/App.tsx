@@ -10,10 +10,13 @@ function App() {
   const { memos, dispatch, addMemo } = useMemos()
   const [input, setInput] = useState("")
   const [search, setSearch] = useState("")
+  const [selectedTag, setSelectedTag] = useState<string | null>(null)
 
-  const filteredMemos = memos.filter((m) =>
-    m.text.toLowerCase().includes(search.toLowerCase())
-  )
+  const filteredMemos = memos.filter((m) => {
+    const matchesSearch = m.text.toLowerCase().includes(search.toLowerCase())
+    const matchesTag = selectedTag ? m.tags.includes(selectedTag) : true
+    return matchesSearch && matchesTag
+  })
 
   const handleAdd = () => {
     if (input.trim() === "") return
@@ -35,6 +38,12 @@ function App() {
             search={search}
             onSearchChange={setSearch}
           />
+          {selectedTag && (
+            <div className="tag-filter">
+              <span>#{selectedTag}</span>
+              <button onClick={() => setSelectedTag(null)}>✕</button>
+            </div>
+          )}
         </div>
         <ul className="memo-list">
           {filteredMemos.map((memo) => (
@@ -44,6 +53,7 @@ function App() {
               text={memo.text}
               createdAt={memo.createdAt}
               tags={memo.tags}
+              onTagClick={setSelectedTag}
             />
           ))}
         </ul>
