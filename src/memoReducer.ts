@@ -8,7 +8,7 @@ export interface Memo {
 type MemoAction =
   | { type: "ADD"; payload: Memo }
   | { type: "DELETE"; payload: number }
-  | { type: "ADD_TAG" payload: {id: number; tag: string }}
+  | { type: "ADD_TAG"; payload: {id: number; tag: string }}
 
 export function memoReducer(state: Memo[], action: MemoAction): Memo[] {
   switch (action.type) {

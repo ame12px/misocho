@@ -4,6 +4,7 @@ import type { Memo } from "./memoReducer"
 type MemoAction =
   | { type: "ADD"; payload: Memo }
   | { type: "DELETE"; payload: number }
+  | { type: "ADD_TAG"; payload: { id: number; tag: string } }
 
 type MemoContextType = {
   memos: Memo[]
