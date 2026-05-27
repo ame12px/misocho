@@ -17,6 +17,7 @@ export function useMemos() {
       id: Date.now(),
       text,
       createdAt: new Date().toLocaleString("ja-JP"),
+      tags: [],
     }
     dispatch({ type: "ADD", payload: newMemo })
   }

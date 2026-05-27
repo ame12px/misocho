@@ -43,6 +43,7 @@ function App() {
               id={memo.id}
               text={memo.text}
               createdAt={memo.createdAt}
+              tags={memo.tags}
             />
           ))}
         </ul>
