@@ -10,12 +10,12 @@ function App() {
   const { memos, dispatch, addMemo } = useMemos()
   const [input, setInput] = useState("")
   const [search, setSearch] = useState("")
-  const [selectedTag, setSelectedTag] = useState<string | null>(null)
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
 
   const filteredMemos = memos.filter((m) => {
     const matchesSearch = m.text.toLowerCase().includes(search.toLowerCase())
-    const matchesTag = selectedTag ? m.tags.includes(selectedTag) : true
-    return matchesSearch && matchesTag
+    const matchesTags = selectedTags.every((tag) => m.tags.includes(tag))
+    return matchesSearch && matchesTags
   })
 
   const handleAdd = () => {
@@ -38,10 +38,14 @@ function App() {
             search={search}
             onSearchChange={setSearch}
           />
-          {selectedTag && (
+          {selectedTags.length > 0 && (
             <div className="tag-filter">
-              <span>#{selectedTag}</span>
-              <button onClick={() => setSelectedTag(null)}>✕</button>
+              {selectedTags.map((tag) => (
+                <span key={tag}>
+                  #{tag}
+                  <button onClick={() => setSelectedTags((prev) => prev.filter((t) => t !== tag))}>✕</button>
+                </span>
+              ))}
             </div>
           )}
         </div>
@@ -53,7 +57,11 @@ function App() {
               text={memo.text}
               createdAt={memo.createdAt}
               tags={memo.tags}
-              onTagClick={setSelectedTag}
+              onTagClick={(tag) => {
+                setSelectedTags((prev) =>
+                  prev.includes(tag) ? prev : [...prev, tag]
+                )
+              }}
             />
           ))}
         </ul>
