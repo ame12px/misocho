@@ -9,7 +9,7 @@ export function useMemos() {
   })
 
   useEffect(() => {
-    localStorage.setItem("memo", JSON.stringify(memos))
+    localStorage.setItem("memos", JSON.stringify(memos))
   }, [memos])
 
   const addMemo = (text: string) => {
