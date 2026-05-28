@@ -33,7 +33,10 @@ function MemoItem({ id, title, text, createdAt, tags, onTagClick }: MemoItemProp
   return (
     <li className="memo-item">
       <div className="memo-item__header" onClick={() => !isEditing && setIsOpen(!isOpen)}>
-        <span className="memo-item__title">{title || "（タイトルなし）"}</span>
+        <div className="memo-item__header-left">
+          <span className="memo-item__title">{title || "（タイトルなし）"}</span>
+          <span className="memo-item__date">{createdAt}</span>
+        </div>
         <span className="memo-item__toggle">{isOpen ? "▲" : "▼"}</span>
       </div>
       
@@ -82,7 +85,6 @@ function MemoItem({ id, title, text, createdAt, tags, onTagClick }: MemoItemProp
           </div>
 
           <div className="memo-item__footer">
-            <span className="memo-item__date">{createdAt}</span>
             {isEditing ? (
               <div className="memo-item__actions">
                 <button onClick={saveEdit}>保存</button>

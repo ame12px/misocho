@@ -128,9 +128,20 @@
   padding: 0.25rem 0;
 }
 
+.memo-item__header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
 .memo-item__title {
   font-weight: 500;
   color: var(--color-text);
+}
+
+.memo-item__header .memo-item__date {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
 }
 
 .memo-item__toggle {
@@ -228,13 +239,8 @@
 
 .memo-item__footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-}
-
-.memo-item__date {
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
 }
 
 .memo-item__actions {
