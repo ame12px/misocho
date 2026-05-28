@@ -12,9 +12,10 @@ export function useMemos() {
     localStorage.setItem("memos", JSON.stringify(memos))
   }, [memos])
 
-  const addMemo = (text: string) => {
+  const addMemo = (title: string, text: string) => {
     const newMemo: Memo = {
       id: Date.now(),
+      title,
       text,
       createdAt: new Date().toLocaleString("ja-JP"),
       tags: [],

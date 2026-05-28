@@ -8,6 +8,7 @@ import "./App.css"
 
 function App() {
   const { memos, dispatch, addMemo } = useMemos()
+  const [title, setTitle] = useState("")
   const [input, setInput] = useState("")
   const [search, setSearch] = useState("")
   const [selectedTags, setSelectedTags] = useState<string[]>([])
@@ -19,8 +20,9 @@ function App() {
   })
 
   const handleAdd = () => {
-    if (input.trim() === "") return
-    addMemo(input)
+    if (input.trim() === "" && title.trim() === "") return
+    addMemo(title, input)
+    setTitle("")
     setInput("")
   }
   
@@ -31,7 +33,9 @@ function App() {
         <div className="app-controls">
           <MemoInput
             input={input}
+            title={title}
             onInputChange={setInput}
+            onTitleChange={setTitle}
             onAdd={handleAdd}
           />
           <MemoSearch
@@ -54,6 +58,7 @@ function App() {
             <MemoItem
               key={memo.id}
               id={memo.id}
+              title={memo.title}
               text={memo.text}
               createdAt={memo.createdAt}
               tags={memo.tags}

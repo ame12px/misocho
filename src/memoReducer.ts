@@ -1,5 +1,6 @@
 export interface Memo {
   id: number
+  title: string
   text: string
   createdAt: string
   tags: string[]
@@ -9,6 +10,8 @@ type MemoAction =
   | { type: "ADD"; payload: Memo }
   | { type: "DELETE"; payload: number }
   | { type: "ADD_TAG"; payload: {id: number; tag: string }}
+  | { type: "REMOVE_TAG"; payload: { id: number; tag: string } }
+  | { type: "EDIT"; payload: { id: number; title: string; text: string } }
 
 export function memoReducer(state: Memo[], action: MemoAction): Memo[] {
   switch (action.type) {
@@ -20,6 +23,18 @@ export function memoReducer(state: Memo[], action: MemoAction): Memo[] {
       return state.map((m) =>
         m.id === action.payload.id
           ? { ...m, tags: [...m.tags, action.payload.tag] }
+          : m
+      )
+    case "REMOVE_TAG":
+      return state.map((m) =>
+        m.id === action.payload.id
+          ? { ...m, tags: m.tags.filter((t) => t !== action.payload.tag) }
+          : m
+      )
+    case "EDIT":
+      return state.map((m) =>
+        m.id === action.payload.id
+          ? { ...m, title: action.payload.title, text: action.payload.text}
           : m
       )
     default:
