@@ -14,7 +14,9 @@ function App() {
   const [selectedTags, setSelectedTags] = useState<string[]>([])
 
   const filteredMemos = memos.filter((m) => {
-    const matchesSearch = m.text.toLowerCase().includes(search.toLowerCase())
+    const matchesSearch =
+      m.text.toLowerCase().includes(search.toLowerCase()) ||
+      m.title.toLowerCase().includes(search.toLowerCase())
     const matchesTags = selectedTags.every((tag) => m.tags.includes(tag))
     return matchesSearch && matchesTags
   })
