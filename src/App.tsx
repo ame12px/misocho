@@ -31,7 +31,7 @@ function App() {
     setTitle("")
     setInput("")
   }
-  
+
   return (
     <MemoContext.Provider value={{ memos, dispatch }}>
       <div className="app">
@@ -44,16 +44,19 @@ function App() {
             onTitleChange={setTitle}
             onAdd={handleAdd}
           />
-          <MemoSearch
-            search={search}
-            onSearchChange={setSearch}
-          />
+          <MemoSearch search={search} onSearchChange={setSearch} />
           {selectedTags.length > 0 && (
             <div className="tag-filter">
               {selectedTags.map((tag) => (
                 <span key={tag}>
                   #{tag}
-                  <button onClick={() => setSelectedTags((prev) => prev.filter((t) => t !== tag))}>✕</button>
+                  <button
+                    onClick={() =>
+                      setSelectedTags((prev) => prev.filter((t) => t !== tag))
+                    }
+                  >
+                    ✕
+                  </button>
                 </span>
               ))}
             </div>

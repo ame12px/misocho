@@ -12,7 +12,16 @@ interface MemoItemProps {
   onTagClick: (tag: string) => void
 }
 
-function MemoItem({ id, title, text, createdAt, updatedAt, tags, starred, onTagClick }: MemoItemProps) {
+function MemoItem({
+  id,
+  title,
+  text,
+  createdAt,
+  updatedAt,
+  tags,
+  starred,
+  onTagClick,
+}: MemoItemProps) {
   const { dispatch } = useMemoContext()
   const [tagInput, setTagInput] = useState("")
   const [isOpen, setIsOpen] = useState(false)
@@ -23,20 +32,28 @@ function MemoItem({ id, title, text, createdAt, updatedAt, tags, starred, onTagC
   const addTag = () => {
     if (tagInput.trim() === "") return
     if (tags.includes(tagInput.trim())) return
-    dispatch({ type: "ADD_TAG", payload: {id, tag: tagInput.trim() } })
+    dispatch({ type: "ADD_TAG", payload: { id, tag: tagInput.trim() } })
     setTagInput("")
   }
 
   const saveEdit = () => {
-    dispatch({ type: "EDIT", payload: { id, title: editTitle, text: editText} })
+    dispatch({
+      type: "EDIT",
+      payload: { id, title: editTitle, text: editText },
+    })
     setIsEditing(false)
   }
-  
+
   return (
     <li className="memo-item">
-      <div className="memo-item__header" onClick={() => !isEditing && setIsOpen(!isOpen)}>
+      <div
+        className="memo-item__header"
+        onClick={() => !isEditing && setIsOpen(!isOpen)}
+      >
         <div className="memo-item__header-left">
-          <span className="memo-item__title">{title || "（タイトルなし）"}</span>
+          <span className="memo-item__title">
+            {title || "（タイトルなし）"}
+          </span>
           <span className="memo-item__date">
             作成: {createdAt}
             {updatedAt !== createdAt && ` ／ 更新: ${updatedAt}`}
@@ -55,7 +72,7 @@ function MemoItem({ id, title, text, createdAt, updatedAt, tags, starred, onTagC
           <span className="memo-item__toggle">{isOpen ? "▲" : "▼"}</span>
         </div>
       </div>
-      
+
       {isOpen && (
         <div className="memo-item__body">
           {isEditing ? (
@@ -80,12 +97,21 @@ function MemoItem({ id, title, text, createdAt, updatedAt, tags, starred, onTagC
           <div className="memo-item__tags">
             {tags.map((tag) => (
               <span key={tag} className="memo-item__tag">
-                <span onClick={() => onTagClick(tag)} style={{ cursor: "pointer" }}>#{tag}</span>
+                <span
+                  onClick={() => onTagClick(tag)}
+                  style={{ cursor: "pointer" }}
+                >
+                  #{tag}
+                </span>
                 {isEditing && (
-                  <button 
+                  <button
                     className="memo-item__tag-remove"
-                    onClick={() => dispatch({ type: "REMOVE_TAG", payload: { id, tag } })}
-                  >✕</button>
+                    onClick={() =>
+                      dispatch({ type: "REMOVE_TAG", payload: { id, tag } })
+                    }
+                  >
+                    ✕
+                  </button>
                 )}
               </span>
             ))}
@@ -109,7 +135,11 @@ function MemoItem({ id, title, text, createdAt, updatedAt, tags, starred, onTagC
             ) : (
               <div className="memo-item__actions">
                 <button onClick={() => setIsEditing(true)}>編集</button>
-                <button onClick={() => dispatch({ type: "DELETE", payload: id})}>削除</button>
+                <button
+                  onClick={() => dispatch({ type: "DELETE", payload: id })}
+                >
+                  削除
+                </button>
               </div>
             )}
           </div>

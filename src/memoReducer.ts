@@ -11,7 +11,7 @@ export interface Memo {
 type MemoAction =
   | { type: "ADD"; payload: Memo }
   | { type: "DELETE"; payload: number }
-  | { type: "ADD_TAG"; payload: {id: number; tag: string }}
+  | { type: "ADD_TAG"; payload: { id: number; tag: string } }
   | { type: "REMOVE_TAG"; payload: { id: number; tag: string } }
   | { type: "EDIT"; payload: { id: number; title: string; text: string } }
   | { type: "TOGGLE_STAR"; payload: number }
@@ -39,7 +39,12 @@ export function memoReducer(state: Memo[], action: MemoAction): Memo[] {
       const updatedAt = `${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()} ${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`
       return state.map((m) =>
         m.id === action.payload.id
-          ? { ...m, title: action.payload.title, text: action.payload.text, updatedAt }
+          ? {
+              ...m,
+              title: action.payload.title,
+              text: action.payload.text,
+              updatedAt,
+            }
           : m
       )
     }

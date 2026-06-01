@@ -1,5 +1,5 @@
-import { useReducer, useEffect } from "react";
-import { memoReducer } from "./memoReducer";
+import { useReducer, useEffect } from "react"
+import { memoReducer } from "./memoReducer"
 import type { Memo } from "./memoReducer"
 
 export function useMemos() {
