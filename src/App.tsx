@@ -64,6 +64,7 @@ function App() {
             </div>
           )}
         </div>
+        <div className="memo-divider">{filteredMemos.length}件</div>
         <ul className="memo-list">
           {sortedMemos.map((memo) => (
             <MemoItem
