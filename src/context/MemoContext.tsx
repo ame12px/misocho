@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react"
-import type { Memo } from "./memoReducer"
+import type { Memo } from "../types/memo"
 
 type MemoAction =
   | { type: "ADD"; payload: Memo }

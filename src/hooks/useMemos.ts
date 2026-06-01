@@ -1,6 +1,6 @@
 import { useReducer, useEffect } from "react"
-import { memoReducer } from "./memoReducer"
-import type { Memo } from "./memoReducer"
+import { memoReducer } from "../types/memo"
+import type { Memo } from "../types/memo"
 
 export function useMemos() {
   const [memos, dispatch] = useReducer(memoReducer, [], () => {

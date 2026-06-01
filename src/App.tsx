@@ -1,9 +1,9 @@
 import { useState } from "react"
-import { useMemos } from "./useMemos"
-import { MemoContext } from "./MemoContext"
-import MemoItem from "./MemoItem"
-import MemoInput from "./MemoInput"
-import MemoSearch from "./MemoSearch"
+import { useMemos } from "./hooks/useMemos"
+import { MemoContext } from "./context/MemoContext"
+import MemoItem from "./components/MemoItem"
+import MemoInput from "./components/MemoInput"
+import MemoSearch from "./components/MemoSearch"
 import "./App.css"
 
 function App() {

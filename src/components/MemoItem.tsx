@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useMemoContext } from "./MemoContext"
+import { useMemoContext } from "../context/MemoContext"
 
 interface MemoItemProps {
   id: number
