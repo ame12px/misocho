@@ -5,6 +5,7 @@ export interface Memo {
   createdAt: string
   updatedAt: string
   tags: string[]
+  starred: boolean
 }
 
 type MemoAction =
@@ -13,6 +14,7 @@ type MemoAction =
   | { type: "ADD_TAG"; payload: {id: number; tag: string }}
   | { type: "REMOVE_TAG"; payload: { id: number; tag: string } }
   | { type: "EDIT"; payload: { id: number; title: string; text: string } }
+  | { type: "TOGGLE_STAR"; payload: number }
 
 export function memoReducer(state: Memo[], action: MemoAction): Memo[] {
   switch (action.type) {
@@ -41,6 +43,10 @@ export function memoReducer(state: Memo[], action: MemoAction): Memo[] {
           : m
       )
     }
+    case "TOGGLE_STAR":
+      return state.map((m) =>
+        m.id === action.payload ? { ...m, starred: !m.starred } : m
+      )
     default:
       return state
   }

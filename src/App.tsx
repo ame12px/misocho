@@ -19,6 +19,12 @@ function App() {
     return matchesSearch && matchesTags
   })
 
+  const sortedMemos = [...filteredMemos].sort((a, b) => {
+    if (a.starred && !b.starred) return -1
+    if (!a.starred && b.starred) return 1
+    return 0
+  })
+
   const handleAdd = () => {
     if (input.trim() === "" && title.trim() === "") return
     addMemo(title, input)
@@ -54,7 +60,7 @@ function App() {
           )}
         </div>
         <ul className="memo-list">
-          {filteredMemos.map((memo) => (
+          {sortedMemos.map((memo) => (
             <MemoItem
               key={memo.id}
               id={memo.id}
@@ -63,6 +69,7 @@ function App() {
               createdAt={memo.createdAt}
               updatedAt={memo.updatedAt}
               tags={memo.tags}
+              starred={memo.starred}
               onTagClick={(tag) => {
                 setSelectedTags((prev) =>
                   prev.includes(tag) ? prev : [...prev, tag]

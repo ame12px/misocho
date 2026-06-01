@@ -8,10 +8,11 @@ interface MemoItemProps {
   createdAt: string
   updatedAt: string
   tags: string[]
+  starred: boolean
   onTagClick: (tag: string) => void
 }
 
-function MemoItem({ id, title, text, createdAt, updatedAt, tags, onTagClick }: MemoItemProps) {
+function MemoItem({ id, title, text, createdAt, updatedAt, tags, starred, onTagClick }: MemoItemProps) {
   const { dispatch } = useMemoContext()
   const [tagInput, setTagInput] = useState("")
   const [isOpen, setIsOpen] = useState(false)
@@ -41,7 +42,18 @@ function MemoItem({ id, title, text, createdAt, updatedAt, tags, onTagClick }: M
             {updatedAt !== createdAt && ` ／ 更新: ${updatedAt}`}
           </span>
         </div>
-        <span className="memo-item__toggle">{isOpen ? "▲" : "▼"}</span>
+        <div className="memo-item__header-right">
+          <button
+            className={`memo-item__star ${starred ? "memo-item___star--on" : ""}`}
+            onClick={(e) => {
+              e.stopPropagation()
+              dispatch({ type: "TOGGLE_STAR", payload: id })
+            }}
+          >
+            {starred ? "★" : "☆"}
+          </button>
+          <span className="memo-item__toggle">{isOpen ? "▲" : "▼"}</span>
+        </div>
       </div>
       
       {isOpen && (

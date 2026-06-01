@@ -20,6 +20,7 @@ export function useMemos() {
       createdAt: new Date().toLocaleString("ja-JP"),
       updatedAt: new Date().toLocaleString("ja-JP"),
       tags: [],
+      starred: false,
     }
     dispatch({ type: "ADD", payload: newMemo })
   }

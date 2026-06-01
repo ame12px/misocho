@@ -7,6 +7,7 @@ type MemoAction =
   | { type: "ADD_TAG"; payload: { id: number; tag: string } }
   | { type: "REMOVE_TAG"; payload: { id: number; tag: string } }
   | { type: "EDIT"; payload: { id: number; title: string; text: string } }
+  | { type: "TOGGLE_STAR"; payload: number }
 
 type MemoContextType = {
   memos: Memo[]
