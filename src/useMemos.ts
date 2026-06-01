@@ -18,6 +18,7 @@ export function useMemos() {
       title,
       text,
       createdAt: new Date().toLocaleString("ja-JP"),
+      updatedAt: new Date().toLocaleString("ja-JP"),
       tags: [],
     }
     dispatch({ type: "ADD", payload: newMemo })

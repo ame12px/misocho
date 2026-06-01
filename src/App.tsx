@@ -61,6 +61,7 @@ function App() {
               title={memo.title}
               text={memo.text}
               createdAt={memo.createdAt}
+              updatedAt={memo.updatedAt}
               tags={memo.tags}
               onTagClick={(tag) => {
                 setSelectedTags((prev) =>

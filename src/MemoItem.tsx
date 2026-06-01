@@ -6,11 +6,12 @@ interface MemoItemProps {
   title: string
   text: string
   createdAt: string
+  updatedAt: string
   tags: string[]
   onTagClick: (tag: string) => void
 }
 
-function MemoItem({ id, title, text, createdAt, tags, onTagClick }: MemoItemProps) {
+function MemoItem({ id, title, text, createdAt, updatedAt, tags, onTagClick }: MemoItemProps) {
   const { dispatch } = useMemoContext()
   const [tagInput, setTagInput] = useState("")
   const [isOpen, setIsOpen] = useState(false)
@@ -35,7 +36,10 @@ function MemoItem({ id, title, text, createdAt, tags, onTagClick }: MemoItemProp
       <div className="memo-item__header" onClick={() => !isEditing && setIsOpen(!isOpen)}>
         <div className="memo-item__header-left">
           <span className="memo-item__title">{title || "（タイトルなし）"}</span>
-          <span className="memo-item__date">{createdAt}</span>
+          <span className="memo-item__date">
+            作成: {createdAt}
+            {updatedAt !== createdAt && ` ／ 更新: ${updatedAt}`}
+          </span>
         </div>
         <span className="memo-item__toggle">{isOpen ? "▲" : "▼"}</span>
       </div>

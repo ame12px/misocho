@@ -3,6 +3,7 @@ export interface Memo {
   title: string
   text: string
   createdAt: string
+  updatedAt: string
   tags: string[]
 }
 
@@ -31,12 +32,15 @@ export function memoReducer(state: Memo[], action: MemoAction): Memo[] {
           ? { ...m, tags: m.tags.filter((t) => t !== action.payload.tag) }
           : m
       )
-    case "EDIT":
+    case "EDIT": {
+      const now = new Date()
+      const updatedAt = `${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()} ${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`
       return state.map((m) =>
         m.id === action.payload.id
-          ? { ...m, title: action.payload.title, text: action.payload.text}
+          ? { ...m, title: action.payload.title, text: action.payload.text, updatedAt }
           : m
       )
+    }
     default:
       return state
   }
