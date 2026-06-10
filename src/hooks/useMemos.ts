@@ -1,18 +1,21 @@
-import { useReducer, useEffect } from "react"
+import { useReducer, useEffect, useState } from "react"
 import { memoReducer } from "../types/memo"
 import type { Memo } from "../types/memo"
 
 export function useMemos() {
-  const [memos, dispatch] = useReducer(memoReducer, [], () => {
-    const saved = localStorage.getItem("memos")
-    return saved ? JSON.parse(saved) : []
-  })
+  const [memos, dispatch] = useReducer(memoReducer, [])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    localStorage.setItem("memos", JSON.stringify(memos))
-  }, [memos])
+    fetch("http://localhost:3000/memos")
+      .then((res) => res.json())
+      .then((data: Memo[]) => {
+        dispatch({ type: "INIT", payload: data })
+        setLoading(false)
+      })
+  }, [])
 
-  const addMemo = (title: string, text: string) => {
+  const addMemo = async (title: string, text: string) => {
     const newMemo: Memo = {
       id: Date.now(),
       title,
@@ -22,8 +25,13 @@ export function useMemos() {
       tags: [],
       starred: false,
     }
+    await fetch("http://localhost:3000/memos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newMemo),
+    })
     dispatch({ type: "ADD", payload: newMemo })
   }
 
-  return { memos, dispatch, addMemo }
+  return { memos, dispatch, addMemo, loading }
 }

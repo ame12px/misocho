@@ -8,6 +8,7 @@ type MemoAction =
   | { type: "REMOVE_TAG"; payload: { id: number; tag: string } }
   | { type: "EDIT"; payload: { id: number; title: string; text: string } }
   | { type: "TOGGLE_STAR"; payload: number }
+  | { type: "INIT"; payload: Memo[] }
 
 type MemoContextType = {
   memos: Memo[]

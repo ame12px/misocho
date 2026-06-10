@@ -15,6 +15,7 @@ type MemoAction =
   | { type: "REMOVE_TAG"; payload: { id: number; tag: string } }
   | { type: "EDIT"; payload: { id: number; title: string; text: string } }
   | { type: "TOGGLE_STAR"; payload: number }
+  | { type: "INIT"; payload: Memo[] }
 
 export function memoReducer(state: Memo[], action: MemoAction): Memo[] {
   switch (action.type) {
@@ -52,6 +53,8 @@ export function memoReducer(state: Memo[], action: MemoAction): Memo[] {
       return state.map((m) =>
         m.id === action.payload ? { ...m, starred: !m.starred } : m
       )
+    case "INIT":
+      return action.payload
     default:
       return state
   }
