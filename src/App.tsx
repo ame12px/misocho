@@ -7,7 +7,7 @@ import MemoSearch from "./components/MemoSearch"
 import "./App.css"
 
 function App() {
-  const { memos, dispatch, addMemo } = useMemos()
+  const { memos, dispatch, addMemo, deleteMemo, updateMemo } = useMemos()
   const [title, setTitle] = useState("")
   const [input, setInput] = useState("")
   const [search, setSearch] = useState("")
@@ -35,7 +35,7 @@ function App() {
   }
 
   return (
-    <MemoContext.Provider value={{ memos, dispatch }}>
+    <MemoContext.Provider value={{ memos, dispatch, deleteMemo, updateMemo }}>
       <div className="app">
         <h1 className="app-title">misocho</h1>
         <div className="app-controls">

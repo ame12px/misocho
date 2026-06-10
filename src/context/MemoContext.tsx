@@ -6,13 +6,18 @@ type MemoAction =
   | { type: "DELETE"; payload: number }
   | { type: "ADD_TAG"; payload: { id: number; tag: string } }
   | { type: "REMOVE_TAG"; payload: { id: number; tag: string } }
-  | { type: "EDIT"; payload: { id: number; title: string; text: string } }
+  | {
+      type: "EDIT"
+      payload: { id: number; title: string; text: string; updatedAt: string }
+    }
   | { type: "TOGGLE_STAR"; payload: number }
   | { type: "INIT"; payload: Memo[] }
 
 type MemoContextType = {
   memos: Memo[]
   dispatch: React.ActionDispatch<[action: MemoAction]>
+  deleteMemo: (id: number) => Promise<void>
+  updateMemo: (id: number, title: string, text: string) => Promise<void>
 }
 
 export const MemoContext = createContext<MemoContextType | null>(null)

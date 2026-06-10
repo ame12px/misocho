@@ -22,7 +22,7 @@ function MemoItem({
   starred,
   onTagClick,
 }: MemoItemProps) {
-  const { dispatch } = useMemoContext()
+  const { dispatch, deleteMemo, updateMemo } = useMemoContext()
   const [tagInput, setTagInput] = useState("")
   const [isOpen, setIsOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
@@ -36,11 +36,8 @@ function MemoItem({
     setTagInput("")
   }
 
-  const saveEdit = () => {
-    dispatch({
-      type: "EDIT",
-      payload: { id, title: editTitle, text: editText },
-    })
+  const saveEdit = async () => {
+    await updateMemo(id, editTitle, editText)
     setIsEditing(false)
   }
 
@@ -61,7 +58,7 @@ function MemoItem({
         </div>
         <div className="memo-item__header-right">
           <button
-            className={`memo-item__star ${starred ? "memo-item___star--on" : ""}`}
+            className={`memo-item__star ${starred ? "memo-item__star--on" : ""}`}
             onClick={(e) => {
               e.stopPropagation()
               dispatch({ type: "TOGGLE_STAR", payload: id })
@@ -135,11 +132,7 @@ function MemoItem({
             ) : (
               <div className="memo-item__actions">
                 <button onClick={() => setIsEditing(true)}>編集</button>
-                <button
-                  onClick={() => dispatch({ type: "DELETE", payload: id })}
-                >
-                  削除
-                </button>
+                <button onClick={() => deleteMemo(id)}>削除</button>
               </div>
             )}
           </div>

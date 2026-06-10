@@ -9,8 +9,12 @@ export function useMemos() {
   useEffect(() => {
     fetch("http://localhost:3000/memos")
       .then((res) => res.json())
-      .then((data: Memo[]) => {
-        dispatch({ type: "INIT", payload: data })
+      .then((data: (Memo & { tags: string })[]) => {
+        const parsed = data.map((m) => ({
+          ...m,
+          tags: JSON.parse(m.tags),
+        }))
+        dispatch({ type: "INIT", payload: parsed })
         setLoading(false)
       })
   }, [])
@@ -33,5 +37,24 @@ export function useMemos() {
     dispatch({ type: "ADD", payload: newMemo })
   }
 
-  return { memos, dispatch, addMemo, loading }
+  const deleteMemo = async (id: number) => {
+    await fetch(`http://localhost:3000/memos/${id}`, {
+      method: "DELETE",
+    })
+    dispatch({ type: "DELETE", payload: id })
+  }
+
+  const updateMemo = async (id: number, title: string, text: string) => {
+    const updatedAt = new Date().toLocaleString("ja-JP")
+    const memo = memos.find((m) => m.id === id)
+    if (!memo) return
+    await fetch(`http://localhost:3000/memos/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...memo, title, text, updatedAt }),
+    })
+    dispatch({ type: "EDIT", payload: { id, title, text, updatedAt } })
+  }
+
+  return { memos, dispatch, addMemo, deleteMemo, updateMemo, loading }
 }
