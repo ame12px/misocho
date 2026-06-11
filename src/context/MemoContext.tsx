@@ -18,6 +18,9 @@ type MemoContextType = {
   dispatch: React.ActionDispatch<[action: MemoAction]>
   deleteMemo: (id: number) => Promise<void>
   updateMemo: (id: number, title: string, text: string) => Promise<void>
+  addTag: (id: number, tag: string) => Promise<void>
+  removeTag: (id: number, tag: string) => Promise<void>
+  toggleStar: (id: number) => Promise<void>
 }
 
 export const MemoContext = createContext<MemoContextType | null>(null)

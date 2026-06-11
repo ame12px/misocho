@@ -22,17 +22,18 @@ function MemoItem({
   starred,
   onTagClick,
 }: MemoItemProps) {
-  const { dispatch, deleteMemo, updateMemo } = useMemoContext()
+  const { deleteMemo, updateMemo, addTag, removeTag, toggleStar } =
+    useMemoContext()
   const [tagInput, setTagInput] = useState("")
   const [isOpen, setIsOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [editTitle, setEditTitle] = useState(title)
   const [editText, setEditText] = useState(text)
 
-  const addTag = () => {
+  const addTagHandler = () => {
     if (tagInput.trim() === "") return
     if (tags.includes(tagInput.trim())) return
-    dispatch({ type: "ADD_TAG", payload: { id, tag: tagInput.trim() } })
+    addTag(id, tagInput.trim())
     setTagInput("")
   }
 
@@ -61,7 +62,7 @@ function MemoItem({
             className={`memo-item__star ${starred ? "memo-item__star--on" : ""}`}
             onClick={(e) => {
               e.stopPropagation()
-              dispatch({ type: "TOGGLE_STAR", payload: id })
+              toggleStar(id)
             }}
           >
             {starred ? "★" : "☆"}
@@ -103,9 +104,7 @@ function MemoItem({
                 {isEditing && (
                   <button
                     className="memo-item__tag-remove"
-                    onClick={() =>
-                      dispatch({ type: "REMOVE_TAG", payload: { id, tag } })
-                    }
+                    onClick={() => removeTag(id, tag)}
                   >
                     ✕
                   </button>
@@ -117,7 +116,8 @@ function MemoItem({
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.nativeEvent.isComposing) addTag()
+                if (e.key === "Enter" && !e.nativeEvent.isComposing)
+                  addTagHandler()
               }}
               placeholder="タグを追加..."
             />

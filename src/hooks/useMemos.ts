@@ -56,5 +56,50 @@ export function useMemos() {
     dispatch({ type: "EDIT", payload: { id, title, text, updatedAt } })
   }
 
-  return { memos, dispatch, addMemo, deleteMemo, updateMemo, loading }
+  const addTag = async (id: number, tag: string) => {
+    const memo = memos.find((m) => m.id === id)
+    if (!memo) return
+    const newTags = [...memo.tags, tag]
+    await fetch(`http://localhost:3000/memos/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...memo, tags: newTags }),
+    })
+    dispatch({ type: "ADD_TAG", payload: { id, tag } })
+  }
+
+  const removeTag = async (id: number, tag: string) => {
+    const memo = memos.find((m) => m.id === id)
+    if (!memo) return
+    const newTags = memo.tags.filter((t) => t !== tag)
+    await fetch(`http://localhost:3000/memos/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...memo, tags: newTags }),
+    })
+    dispatch({ type: "REMOVE_TAG", payload: { id, tag } })
+  }
+
+  const toggleStar = async (id: number) => {
+    const memo = memos.find((m) => m.id === id)
+    if (!memo) return
+    await fetch(`http://localhost:3000/memos/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...memo, starred: !memo.starred }),
+    })
+    dispatch({ type: "TOGGLE_STAR", payload: id })
+  }
+
+  return {
+    memos,
+    dispatch,
+    addMemo,
+    deleteMemo,
+    updateMemo,
+    addTag,
+    removeTag,
+    toggleStar,
+    loading,
+  }
 }
