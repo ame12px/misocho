@@ -9,7 +9,7 @@ import Login from "./components/Login"
 import "./App.css"
 
 function App() {
-  const { token, login } = useAuth()
+  const { token, login, logout } = useAuth()
   const {
     memos,
     dispatch,
@@ -63,7 +63,12 @@ function App() {
       }}
     >
       <div className="app">
-        <h1 className="app-title">misocho</h1>
+        <div className="app-header">
+          <h1 className="app-title">misocho</h1>
+          <button className="app-logout" onClick={logout}>
+            ログアウト
+          </button>
+        </div>
         <div className="app-controls">
           <MemoInput
             input={input}
