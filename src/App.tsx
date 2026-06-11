@@ -1,12 +1,15 @@
 import { useState } from "react"
 import { useMemos } from "./hooks/useMemos"
 import { MemoContext } from "./context/MemoContext"
+import { useAuth } from "./hooks/useAuth"
 import MemoItem from "./components/MemoItem"
 import MemoInput from "./components/MemoInput"
 import MemoSearch from "./components/MemoSearch"
+import Login from "./components/Login"
 import "./App.css"
 
 function App() {
+  const { token, login } = useAuth()
   const {
     memos,
     dispatch,
@@ -16,7 +19,7 @@ function App() {
     addTag,
     removeTag,
     toggleStar,
-  } = useMemos()
+  } = useMemos(token)
   const [title, setTitle] = useState("")
   const [input, setInput] = useState("")
   const [search, setSearch] = useState("")
@@ -41,6 +44,10 @@ function App() {
     addMemo(title, input)
     setTitle("")
     setInput("")
+  }
+
+  if (!token) {
+    return <Login onLogin={login} />
   }
 
   return (

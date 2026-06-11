@@ -2,12 +2,14 @@ import { useReducer, useEffect, useState } from "react"
 import { memoReducer } from "../types/memo"
 import type { Memo } from "../types/memo"
 
-export function useMemos() {
+export function useMemos(token: string) {
   const [memos, dispatch] = useReducer(memoReducer, [])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch("http://localhost:3000/memos")
+    fetch("http://localhost:3000/memos", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then((res) => res.json())
       .then((data: (Memo & { tags: string })[]) => {
         const parsed = data.map((m) => ({
@@ -17,7 +19,7 @@ export function useMemos() {
         dispatch({ type: "INIT", payload: parsed })
         setLoading(false)
       })
-  }, [])
+  }, [token])
 
   const addMemo = async (title: string, text: string) => {
     const newMemo: Memo = {
@@ -31,7 +33,10 @@ export function useMemos() {
     }
     await fetch("http://localhost:3000/memos", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify(newMemo),
     })
     dispatch({ type: "ADD", payload: newMemo })
@@ -40,6 +45,10 @@ export function useMemos() {
   const deleteMemo = async (id: number) => {
     await fetch(`http://localhost:3000/memos/${id}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     })
     dispatch({ type: "DELETE", payload: id })
   }
@@ -50,7 +59,10 @@ export function useMemos() {
     if (!memo) return
     await fetch(`http://localhost:3000/memos/${id}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({ ...memo, title, text, updatedAt }),
     })
     dispatch({ type: "EDIT", payload: { id, title, text, updatedAt } })
@@ -62,7 +74,10 @@ export function useMemos() {
     const newTags = [...memo.tags, tag]
     await fetch(`http://localhost:3000/memos/${id}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({ ...memo, tags: newTags }),
     })
     dispatch({ type: "ADD_TAG", payload: { id, tag } })
@@ -74,7 +89,10 @@ export function useMemos() {
     const newTags = memo.tags.filter((t) => t !== tag)
     await fetch(`http://localhost:3000/memos/${id}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({ ...memo, tags: newTags }),
     })
     dispatch({ type: "REMOVE_TAG", payload: { id, tag } })
@@ -85,7 +103,10 @@ export function useMemos() {
     if (!memo) return
     await fetch(`http://localhost:3000/memos/${id}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({ ...memo, starred: !memo.starred }),
     })
     dispatch({ type: "TOGGLE_STAR", payload: id })
