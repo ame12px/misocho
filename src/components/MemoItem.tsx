@@ -132,7 +132,15 @@ function MemoItem({
             ) : (
               <div className="memo-item__actions">
                 <button onClick={() => setIsEditing(true)}>編集</button>
-                <button onClick={() => deleteMemo(id)}>削除</button>
+                <button
+                  onClick={() => {
+                    if (window.confirm("このメモを削除しますか？")) {
+                      deleteMemo(id)
+                    }
+                  }}
+                >
+                  削除
+                </button>
               </div>
             )}
           </div>
