@@ -300,7 +300,7 @@
 }
 
 .memo-item__tag-input {
-  font-size: 0.75rem;
+  font-size: 16px;
   padding: 2px 8px;
   border: 1px dashed var(--color-border);
   border-radius: 20px;
@@ -308,6 +308,12 @@
   width: 100px;
   background: transparent;
   color: var(--color-text);
+}
+
+@media (min-width: 481px) {
+  .memo-item__tag-input {
+    font-size: 0.75rem;
+  }
 }
 
 .memo-item__tag-input:focus {
