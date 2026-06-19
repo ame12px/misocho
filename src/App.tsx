@@ -19,7 +19,7 @@ function App() {
     addTag,
     removeTag,
     toggleStar,
-  } = useMemos(token)
+  } = useMemos(token ?? "")
   const [title, setTitle] = useState("")
   const [input, setInput] = useState("")
   const [search, setSearch] = useState("")

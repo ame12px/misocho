@@ -2,12 +2,14 @@ import { useReducer, useEffect, useState } from "react"
 import { memoReducer } from "../types/memo"
 import type { Memo } from "../types/memo"
 
+const API_URL = import.meta.env.VITE_API_URL
+
 export function useMemos(token: string) {
   const [memos, dispatch] = useReducer(memoReducer, [])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch("http://localhost:3000/memos", {
+    fetch(`${API_URL}/memos`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -31,7 +33,7 @@ export function useMemos(token: string) {
       tags: [],
       starred: false,
     }
-    await fetch("http://localhost:3000/memos", {
+    await fetch(`${API_URL}/memos`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -43,7 +45,7 @@ export function useMemos(token: string) {
   }
 
   const deleteMemo = async (id: number) => {
-    await fetch(`http://localhost:3000/memos/${id}`, {
+    await fetch(`${API_URL}/memos/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +59,7 @@ export function useMemos(token: string) {
     const updatedAt = new Date().toLocaleString("ja-JP")
     const memo = memos.find((m) => m.id === id)
     if (!memo) return
-    await fetch(`http://localhost:3000/memos/${id}`, {
+    await fetch(`${API_URL}/memos/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -72,7 +74,7 @@ export function useMemos(token: string) {
     const memo = memos.find((m) => m.id === id)
     if (!memo) return
     const newTags = [...memo.tags, tag]
-    await fetch(`http://localhost:3000/memos/${id}`, {
+    await fetch(`${API_URL}/memos/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -87,7 +89,7 @@ export function useMemos(token: string) {
     const memo = memos.find((m) => m.id === id)
     if (!memo) return
     const newTags = memo.tags.filter((t) => t !== tag)
-    await fetch(`http://localhost:3000/memos/${id}`, {
+    await fetch(`${API_URL}/memos/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -101,7 +103,7 @@ export function useMemos(token: string) {
   const toggleStar = async (id: number) => {
     const memo = memos.find((m) => m.id === id)
     if (!memo) return
-    await fetch(`http://localhost:3000/memos/${id}`, {
+    await fetch(`${API_URL}/memos/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
