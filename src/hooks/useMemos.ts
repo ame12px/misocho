@@ -24,8 +24,7 @@ export function useMemos(token: string) {
   }, [token])
 
   const addMemo = async (title: string, text: string) => {
-    const newMemo: Memo = {
-      id: Date.now(),
+    const newMemo = {
       title,
       text,
       createdAt: new Date().toLocaleString("ja-JP"),
@@ -33,7 +32,7 @@ export function useMemos(token: string) {
       tags: [],
       starred: false,
     }
-    await fetch(`${API_URL}/memos`, {
+    const res = await fetch(`${API_URL}/memos`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -41,7 +40,11 @@ export function useMemos(token: string) {
       },
       body: JSON.stringify(newMemo),
     })
-    dispatch({ type: "ADD", payload: newMemo })
+    const saved = await res.json()
+    dispatch({
+      type: "ADD",
+      payload: { ...saved, tags: JSON.parse(saved.tags) },
+    })
   }
 
   const deleteMemo = async (id: number) => {
