@@ -77,6 +77,9 @@ function App() {
             onTitleChange={setTitle}
             onAdd={handleAdd}
           />
+        </div>
+        <div className="memo-divider">{filteredMemos.length}件</div>
+        <div className="memo-filters">
           <MemoSearch search={search} onSearchChange={setSearch} />
           {selectedTags.length > 0 && (
             <div className="tag-filter">
@@ -95,7 +98,6 @@ function App() {
             </div>
           )}
         </div>
-        <div className="memo-divider">{filteredMemos.length}件</div>
         <ul className="memo-list">
           {sortedMemos.map((memo) => (
             <MemoItem

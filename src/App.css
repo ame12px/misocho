@@ -87,6 +87,13 @@
   background: var(--color-border);
 }
 
+.memo-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
 .memo-list {
   list-style: none;
   display: flex;
