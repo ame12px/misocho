@@ -183,7 +183,7 @@
 .memo-item__header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   cursor: pointer;
   padding: 0.25rem 0;
   gap: 0.5rem;
@@ -200,9 +200,7 @@
 .memo-item__title {
   font-weight: 500;
   color: var(--color-text);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  word-break: break-word;
 }
 
 .memo-item__header .memo-item__date {
